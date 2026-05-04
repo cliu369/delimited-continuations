@@ -214,3 +214,42 @@ Fixpoint indexl {X: Type} (n: nat) (l: list X) : option X :=
   | S m, x :: t => indexl m t
   end
 .
+
+Lemma indexl_map : forall (A B: Type) (l: list A) (x : nat) (f: A -> B) (v: A), 
+  indexl x l = Some (v) ->
+  indexl x (map f l) = Some (f v).
+Proof.
+  intros A B l. induction l; intros x f v H.    
+  - destruct x; discriminate H.
+  - simpl in H. simpl. destruct x. 
+    + injection H as H. subst. simpl. reflexivity. 
+    + simpl in *. auto.  
+Qed.
+
+Lemma indexl_add : forall A (l1: list A) l2 i, 
+  indexl i l2 = indexl (i + length l1) (l1 ++ l2).
+Proof.
+  intros A l1. induction l1; intros l2 i.
+  - simpl. rewrite Nat.add_0_r. reflexivity. 
+  - simpl. rewrite Nat.add_succ_r. simpl. apply IHl1.
+Qed.
+
+Lemma indexl_mid : forall A (l1: list A) l2 l3 i,
+  length l1 <= i -> 
+  indexl i (l1 ++ l3) = indexl (i + length l2) (l1 ++ l2 ++ l3).
+Proof.
+  intros A l1. induction l1; intros l2 l3 i HL.
+  - simpl in *. apply indexl_add.
+  - destruct i. inversion HL.
+    + simpl in *. apply IHl1. apply le_S_n in HL. apply HL.
+Qed.   
+
+Lemma indexl_left : forall A (l1: list A) l2 l3 i, 
+  length l1 > i -> 
+  indexl i (l1 ++ l3) = indexl (i) (l1 ++ l2 ++ l3).
+Proof.
+  intros A l1. induction l1; intros l2 l3 i HL.
+  - simpl in *. inversion HL.   
+  - destruct i. auto. simpl in *. apply le_S_n in HL.
+    apply IHl1. apply HL.
+Qed.    
