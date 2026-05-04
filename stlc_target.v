@@ -5,14 +5,14 @@ Target language for selective CPS transform.
 Uses de Bruijn indices.
 *)
 
-Require Import Coq.Lists.List.
-Require Import Psatz.
-Require Import Coq.Arith.Compare_dec.
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Arith.Peano_dec.
-Require Import Coq.Bool.Bool.
-Require Import FunctionalExtensionality.
-Require Import PropExtensionality.
+Require Import Stdlib.Lists.List.
+From Stdlib Require Import Psatz.
+Require Import Stdlib.Arith.Compare_dec.
+From Stdlib Require Import Arith.PeanoNat.
+Require Import Stdlib.Arith.Peano_dec.
+Require Import Stdlib.Bool.Bool.
+From Stdlib Require Import FunctionalExtensionality.
+From Stdlib Require Import PropExtensionality.
 
 Import ListNotations.
 
@@ -53,11 +53,11 @@ Definition tenv := list ty.
 Definition vkenv := list vl. 
 Definition tkenv := list ty. 
 
-#[global] Hint Unfold venv.
-#[global] Hint Unfold tenv.
+#[global] Hint Unfold venv : core.
+#[global] Hint Unfold tenv : core.
 
-#[global] Hint Unfold vkenv.
-#[global] Hint Unfold tkenv.
+#[global] Hint Unfold vkenv : core.
+#[global] Hint Unfold tkenv : core.
 
 
 (* ---------- syntactic typing rules ---------- *)

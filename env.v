@@ -161,7 +161,7 @@ Lemma update_indexr_miss : forall {A} {σ : list A} {l v l'}, l <> l' ->  indexr
 Qed.
 
 Lemma update_indexr_hit : forall {A} {σ : list A} {l v}, l < length σ -> indexr l (update σ l v) = Some v.
-  induction σ; simpl; intuition.
+  induction σ; simpl; intuition auto with * .
   destruct (Nat.eqb l (length σ)) eqn:Hls.
   apply  Nat.eqb_eq  in Hls. rewrite Hls. apply indexr_head.
   simpl. rewrite <- update_length. rewrite Hls. apply  Nat.eqb_neq  in Hls.
