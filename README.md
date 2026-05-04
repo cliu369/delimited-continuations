@@ -1,6 +1,6 @@
-# Mechanized Proofs for Delimited Continuations
+# Mechanization of Delimited Continuations 
 
-Mechanization based on https://github.com/TiarkRompf/types-and-proofs.
+Based on https://github.com/TiarkRompf/types-and-proofs.
 
 ## Compilation
 
