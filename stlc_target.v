@@ -19,7 +19,7 @@ Import ListNotations.
 Require Import tactics.
 Require Import env.
 
-Module STLC_CONT_TARGET.
+Module STLC_TARGET.
 
 (* ---------- language syntax ---------- *)
 
@@ -401,4 +401,4 @@ Theorem badtm : forall env kenv T, ~has_type env kenv (tapp ttrue tfalse) T.
   intros env kenv T H. inversion H. inversion H4.   
 Qed. 
 
-End STLC_CONT_TARGET.
+End STLC_TARGET.

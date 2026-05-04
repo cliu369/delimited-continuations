@@ -1,19 +1,20 @@
-Require Import Coq.Lists.List.
-Require Import Psatz.
-Require Import Coq.Arith.Compare_dec.
-Require Import Coq.Arith.Peano_dec.
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Bool.Bool.
-Require Import FunctionalExtensionality.
-Require Import PropExtensionality.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Psatz.
+Require Import Stdlib.Arith.Compare_dec.
+From Stdlib Require Import Arith.Peano_dec.
+From Stdlib Require Import Arith.PeanoNat.  
+Require Import Stdlib.Bool.Bool.
+From Stdlib Require Import FunctionalExtensionality.
+From Stdlib Require Import PropExtensionality.
 
 Import ListNotations.
 
 Require Import tactics.
 Require Import env.
+Require Import stlc_target.
 
 Module STLC_CONT.
-Module B := stlc_cont_target.STLC_CONT_TARGET. (* B for Base *)
+Module B := stlc_target.STLC_TARGET. (* B for Base *)
 
 #[local] Hint Constructors B.has_type : core.
 
@@ -51,7 +52,7 @@ Example example2 : tm :=
 Inductive ty: Type := 
   | TBool : ty
   | TFun : ty -> ty -> ty (* T1 -> T2 *)
-  | TKFun : ty -> ty -> ty -> ty (* T1 !->R T2*)
+  | TKFun : ty -> ty -> ty -> ty (* T1, R !-> T2*)
 (* Note - do we need to make TKFun a restricted type? *)
 .
 Definition tenv := list ty.
