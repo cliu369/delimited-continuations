@@ -13,10 +13,8 @@ Require Import tactics.
 Require Import env.
 Require Import stlc_target.
 
-Module STLC_CONT.
+Module STLC_CONT_ANNOT.
 Module B := stlc_target.STLC_TARGET. (* B for Base *)
-
-#[local] Hint Constructors B.has_type : core.
 
 Definition id := nat.
 
@@ -71,7 +69,7 @@ Inductive has_type : tenv -> (option ty) -> tm -> ty -> Prop :=
       has_type env K ebranch T -> 
       has_type env K (tif cond tbranch ebranch) T
   
-  | t_var : forall x env K T, 
+  | t_var : forall env K x T, 
       indexl x env = Some T -> 
       has_type env K (tvar x) T    
 
@@ -270,6 +268,8 @@ Fixpoint trans_env(env: tenv): B.tenv :=
 
 #[export] Hint Constructors ty: core.
 #[export] Hint Constructors tm: core.
+#[local] Hint Constructors B.has_type : core.
+
 
 Theorem fundamental : forall G K t T, 
   has_type G K t T -> 
@@ -350,8 +350,8 @@ Qed.
    extension, instead of just returning bool, 
    return a term with a hole (e.g. function from B.tm -> B.tm)
    so for example for tapp it would return
-   [[ f t ]] = [[ f ]] (\v1. [[ t ]] (\v2. [ HOLE ] (f t) )). 
-   and if its a subterm supply a
+   [[ f t ]] = HOLE -> [[ f ]] (\v1. [[ t ]] (\v2. [ HOLE ] (v1 v2) )). 
+   and if its a subterm supply the continuation to HOLE 
 *)
 Fixpoint transform2 (t: tm) : B.tm * bool := 
   match t with 
@@ -632,4 +632,4 @@ Proof.
   simpl in HQ. rewrite <- Heqres in HQ. apply HQ. reflexivity.   
 Qed.     
 
-End STLC_CONT.
+End STLC_CONT_ANNOT.
