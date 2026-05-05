@@ -1,3 +1,8 @@
+(*
+Syntax of language is annotated,
+allowing transform to operate purely syntactically.
+*)
+
 From Stdlib Require Import Lists.List.
 From Stdlib Require Import Psatz.
 Require Import Stdlib.Arith.Compare_dec.
