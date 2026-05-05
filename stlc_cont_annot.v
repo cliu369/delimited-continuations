@@ -1,6 +1,6 @@
 (*
 Syntax of language is annotated,
-allowing transform to operate purely syntactically.
+allowing transform to dispatch on terms
 *)
 
 From Stdlib Require Import Lists.List.
