@@ -226,6 +226,43 @@ Proof.
     + simpl in *. auto.  
 Qed.
 
+Lemma indexl_var_some : forall {A} {l : list A} {i}, 
+  (exists v, indexl i l = Some v) <-> i < length l.
+Proof.
+  induction l; intros; split; intros.
+  - inversion H. destruct i; inversion H0.
+  - simpl in *. inversion H.
+  - simpl. destruct i. apply Nat.lt_0_succ. 
+    rewrite <- Nat.succ_lt_mono. apply IHl. 
+    destruct H. simpl in H. exists x; assumption.
+  - destruct i. exists a. simpl. reflexivity.
+    simpl in *. rewrite <- Nat.succ_lt_mono in H. apply IHl. apply H.   
+Qed.
+
+Lemma indexl_var_some' : forall {A} {l : list A} {i v}, 
+  indexl i l = Some v -> i < length l.
+Proof.
+  intros. apply indexl_var_some. exists v. assumption.
+Qed.
+
+Lemma indexl_skips : forall {A} {l l' : list A} {i}, 
+  i < length l -> indexl i (l ++ l') = indexl i l.
+Proof.
+  induction l; intros. 
+  - destruct i; simpl in *; inversion H.
+  - simpl. destruct i; auto. simpl in *. rewrite <- Nat.succ_lt_mono in H.  
+    auto.
+Qed.
+
+Lemma indexl_extend : forall A l l' (i: nat) (v: A),
+  indexl i l = Some v -> 
+  indexl i (l ++ l') = Some v.
+Proof.
+  induction l; intros.
+  - destruct i; simpl in *; inversion H.
+  - destruct i; simpl in *; auto. 
+Qed.  
+
 Lemma indexl_add : forall A (l1: list A) l2 i, 
   indexl i l2 = indexl (i + length l1) (l1 ++ l2).
 Proof.
@@ -252,4 +289,4 @@ Proof.
   - simpl in *. inversion HL.   
   - destruct i. auto. simpl in *. apply le_S_n in HL.
     apply IHl1. apply HL.
-Qed.    
+Qed.   
