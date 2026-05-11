@@ -245,6 +245,18 @@ Proof.
   intros. apply indexl_var_some. exists v. assumption.
 Qed.
 
+Lemma indexl_var_none : forall {A} {xs : list A} {x}, 
+  indexl x xs = None <-> x >= length xs.
+Proof.
+  induction xs; split; intros.
+  - destruct x; simpl in *; lia.
+  - destruct x; simpl in *; reflexivity.
+  - destruct x; simpl in *. inversion H. apply -> Nat.succ_le_mono.
+    apply IHxs. apply H.
+  - destruct x; simpl in *. inversion H. apply IHxs.
+    apply Nat.succ_le_mono in H. apply H.  
+Qed.
+
 Lemma indexl_skips : forall {A} {l l' : list A} {i}, 
   i < length l -> indexl i (l ++ l') = indexl i l.
 Proof.
@@ -255,13 +267,20 @@ Proof.
 Qed.
 
 Lemma indexl_extend : forall A l l' (i: nat) (v: A),
-  indexl i l = Some v -> 
-  indexl i (l ++ l') = Some v.
+  indexl i l = Some v -> indexl i (l ++ l') = Some v.
 Proof.
   induction l; intros.
   - destruct i; simpl in *; inversion H.
   - destruct i; simpl in *; auto. 
 Qed.  
+
+Lemma indexl_insert : forall {A} {xs xs' : list A} {y}, 
+  indexl (length xs) (xs ++ y :: xs') = Some y.
+Proof.
+  intros. induction xs.
+  - replace ([] ++ y :: xs') with (y :: xs'); auto. 
+  - simpl. rewrite IHxs. auto. 
+Qed.
 
 Lemma indexl_add : forall A (l1: list A) l2 i, 
   indexl i l2 = indexl (i + length l1) (l1 ++ l2).
