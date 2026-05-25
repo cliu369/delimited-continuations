@@ -14,7 +14,7 @@ Then, to compile/check all proof scripts listed in `_RocqProject_`:
 
 To remove generated files, run:
 
-`make -f RocqMakfile cleanall`
+`make -f RocqMakefile cleanall`
 
 Compatibility tested with Rocq `9.10.0`.
 
